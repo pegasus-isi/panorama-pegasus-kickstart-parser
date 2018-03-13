@@ -16,13 +16,9 @@
 
 import argparse
 import collections
-import datetime
-import getpass
-import glob
 import json
 import logging
 import os
-import time
 import xml.etree.ElementTree
 import fnmatch
 
