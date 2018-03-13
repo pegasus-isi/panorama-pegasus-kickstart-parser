@@ -20,7 +20,6 @@ import json
 import logging
 import os
 import xml.etree.ElementTree
-import fnmatch
 
 __author__ = "Rafael Ferreira da Silva"
 
