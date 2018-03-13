@@ -62,5 +62,6 @@ Data description:
 - `vmpeak`:
 - `bytesRead`: Total bytes read in KB.
 - `bytesWritten`: Total bytes written in KB.
+- `iowait`: Total time waiting for I/O operations in seconds.
 - `arguments`: List of job arguments
 - `machine`: Node name of machine on which job was run. 
