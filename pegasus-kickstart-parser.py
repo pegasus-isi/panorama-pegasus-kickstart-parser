@@ -44,25 +44,6 @@ def _configure_logging(debug):
     logger.addHandler(ch)
 
 
-def fetch_all_files(input_dir, extension, file_name=""):
-    """
-    fetches all files from the directory and its hierarchy
-    :param dir: input directory where files with extension should be searched
-    :param extension: file extension to be searched for
-    :param file_name: file_name to be searched
-    :return:
-    """
-    files = []
-    for root, dirnames, filenames in os.walk(input_dir):
-        if len(file_name) == 0:
-            for filename in fnmatch.filter(filenames, '*.' + extension):
-                files.append(os.path.join(root, filename))
-        else:
-            for filename in fnmatch.filter(filenames, file_name + '.' + extension):
-                files.append(os.path.join(root, filename))
-    return files
-
-
 def _parse_job_output(kickstart_file):
     """
     Parse the kickstart job output file (e.g., .out.000).
