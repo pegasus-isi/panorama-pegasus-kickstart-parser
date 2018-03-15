@@ -43,6 +43,13 @@ def _configure_logging(debug):
     logger.addHandler(ch)
 
 
+def _set_property(data, e, property, isInt=False):
+    value = e.get(property)
+    if value:
+        if (isInt and value > 0) or (not isInt and len(value) > 0):
+            data[property] = value
+
+
 def _parse_job_output(kickstart_file):
     """
     Parse the kickstart job output file (e.g., .out.000).
@@ -51,7 +58,6 @@ def _parse_job_output(kickstart_file):
     data = collections.OrderedDict()
 
     runtime = 0
-    cores = 0
     total_time = 0
     maxrss = 0
     utime = 0
@@ -90,16 +96,15 @@ def _parse_job_output(kickstart_file):
     try:
         e = xml.etree.ElementTree.parse(kickstart_file).getroot()
         # main job information
-        transformation = e.get('transformation')
-        data['transformation'] = transformation
-        data['derivation'] = e.get('derivation')
-        data['startTime'] = e.get('start')
-
-        if transformation.startswith('pegasus:'):
+        _set_property(data, e, 'transformation')
+        if 'transformation' in data and data['transformation'].startswith('pegasus:'):
             # changing the job type of chmod jobs to auxiliary
             data['type'] = 'auxiliary'
         else:
             data['type'] = 'compute'
+
+        _set_property(data, e, 'derivation')
+        _set_property(data, e, 'start')
 
         for mj in e.findall('{http://pegasus.isi.edu/schema/invocation}mainjob'):
             runtime += float(mj.get('duration'))
